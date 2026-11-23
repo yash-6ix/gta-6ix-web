@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#141b20" />
+    <meta name="description" content="GTA 6ix is a third-person browser sandbox set in the Greater Toronto Area." />
+    <title>GTA 6ix</title>
+  </head>
+  <body>
+    <main id="game" class="game" aria-label="GTA 6ix">
+      <div id="scene" class="scene"></div>
+
+      <section id="menu" class="menu" aria-labelledby="title">
+        <div class="menu-main">
+          <div class="eyebrow"><span class="location-mark" aria-hidden="true"></span> Toronto, ON <span class="divider"></span> Harbourfront</div>
+          <h1 id="title" class="wordmark">
+            <span class="sr-only">GTA 6ix</span>
+            <svg viewBox="0 0 426 231" aria-hidden="true" focusable="false">
+              <g class="wordmark-block" fill-rule="evenodd">
+                <path d="M38 11H132L127 37H60L48 51L42 88L51 99H93L98 78H74L79 55H136L122 122H32L9 98L20 37Z" />
+                <path d="M148 11H281L276 38H228L210 122H175L193 38H142Z" />
+                <path d="M313 11H358L393 122H355L348 98H291L276 122H239ZM307 72H340L330 38Z" />
+              </g>
+              <g class="wordmark-script" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path class="wordmark-six" d="M302 108C308 95 292 93 276 105C249 126 215 167 216 187C217 210 249 199 265 180C280 162 273 148 259 152C247 155 236 165 227 176" />
+                <path d="M294 145C287 158 270 179 279 183C288 187 303 176 313 168M302 131L305 127M320 144C331 133 341 131 342 141C343 154 338 172 348 173C356 173 366 165 373 157M315 174C331 156 353 136 378 125" />
+                <path class="wordmark-flourish" d="M184 223C252 209 335 194 418 185M321 218C351 212 378 208 399 206" />
+              </g>
+            </svg>
+          </h1>
+          <p class="wordmark-caption">Greater Toronto Area</p>
+          <p class="menu-copy">Take a courier shift along Toronto’s waterfront, or follow the streets from Harbourfront into downtown.</p>
+          <div class="menu-actions">
+            <button id="start" class="button primary" type="button" disabled><span>Start shift</span><kbd>↵</kbd></button>
+            <button id="free" class="button secondary" type="button" disabled>Free roam</button>
+          </div>
+          <p id="loading" class="loading" role="status">Loading Harbourfront…</p>
+        </div>
+        <div id="menu-controls" class="menu-controls" aria-label="Controls">
+          <div><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><span>Move</span></div>
+          <div><span class="mouse-icon" aria-hidden="true"></span><span>Look</span></div>
+          <div><kbd>−</kbd><kbd>+</kbd><span>Zoom</span></div>
+          <div><kbd>Shift</kbd><span>Sprint</span></div>
+          <div><kbd>E</kbd><span>Interact</span></div>
+        </div>
+        <p class="touch-menu-help">Use the left joystick to move. Drag the view to look around.</p>
+      </section>
+
+      <section id="hud" class="hud" aria-label="Game status" hidden>
+        <div class="hud-left">
+          <div id="objective" class="objective">
+            <p id="job-name" class="hud-label"></p>
+            <h2 id="job-step"></h2>
+            <p id="job-detail"></p>
+          </div>
+          <div id="toast" class="toast" role="status" hidden></div>
+        </div>
+        <div class="hud-right">
+          <button id="map-frame" class="map-frame" type="button" aria-label="Expand map" aria-expanded="false">
+            <span class="map-top"><span id="map-label">HARBOURFRONT</span><kbd>M</kbd></span>
+            <canvas id="map" width="660" height="510" aria-label="Toronto map"></canvas>
+          </button>
+          <button id="pause-button" class="icon-button" type="button" aria-label="Pause game"><span aria-hidden="true">Ⅱ</span></button>
+          <div class="touch-tools" role="group" aria-label="Camera controls">
+            <button id="touch-zoom-out" type="button" aria-label="Zoom out">−</button>
+            <button id="touch-zoom-in" type="button" aria-label="Zoom in">+</button>
+            <button id="touch-center" type="button" aria-label="Recenter camera">⊙</button>
+          </div>
+        </div>
+        <div class="interaction-area">
+          <div id="prompt" class="prompt" hidden><kbd id="prompt-key"></kbd><span id="prompt-text"></span></div>
+        </div>
+        <div class="hud-footer">
+          <div id="controls-hint" class="controls-hint"></div>
+          <div class="location-panel">
+            <div id="vehicle-readout" class="vehicle-readout" hidden>
+              <div id="drift-label" class="drift-label" hidden>Handbrake drift</div>
+              <div id="speed" class="speed"><strong>0</strong> <span>KM/H</span></div>
+              <div class="vehicle-condition">
+                <span>Body</span> <meter id="body-condition" min="0" max="100" low="30" high="70" optimum="100" value="100" aria-label="Vehicle body condition"></meter>
+                <span id="body-condition-value">100%</span>
+              </div>
+            </div>
+            <div id="street-name"></div>
+          </div>
+        </div>
+        <section id="touch-controls" class="touch-controls" aria-label="Touch controls" hidden>
+          <div id="touch-stick" class="touch-stick" aria-label="Movement and steering joystick">
+            <span class="touch-stick-thumb" aria-hidden="true"></span>
+            <span id="touch-stick-label" class="touch-stick-label" aria-hidden="true">Move</span>
+          </div>
+          <div class="touch-actions">
+            <div class="touch-command-row">
+              <button id="touch-sprint" class="touch-button" type="button" data-hold="sprint">Sprint</button>
+              <button id="touch-interact" class="touch-button" type="button">Use</button>
+              <button id="touch-vehicle" class="touch-button" type="button">Vehicle</button>
+            </div>
+            <div id="touch-pedals" class="touch-pedals" hidden>
+              <button id="touch-brake" class="touch-button" type="button" data-hold="brake">Brake</button>
+              <button class="touch-button" type="button" data-hold="reverse">Reverse</button>
+              <button class="touch-button touch-gas" type="button" data-hold="gas">Gas</button>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section id="pause" class="pause" aria-labelledby="pause-title" hidden>
+        <div class="pause-dialog">
+          <div class="eyebrow pause-brand"><span class="location-mark" aria-hidden="true"></span> GTA 6ix</div>
+          <h2 id="pause-title">Paused</h2>
+          <button id="resume" class="button primary" type="button">Resume</button>
+          <button id="mute" class="button secondary" type="button" aria-pressed="false">Mute sound</button>
+          <button id="restart" class="button secondary" type="button">Restart shift</button>
+          <button id="back" class="button secondary" type="button">Main menu</button>
+          <p class="keyboard-pause-help">WASD to move · Mouse or arrow keys to look · C to recenter camera · Scroll or use − / + to zoom · E to interact · F to enter or exit a vehicle · M for map</p>
+          <p class="touch-pause-help">Use the left joystick to move or steer. Drag the view to look around. Tap the map to expand it.</p>
+        </div>
+      </section>
+      <section id="rotate-screen" class="rotate-screen" role="status" hidden>
+        <span class="rotate-icon" aria-hidden="true">↻</span>
+        <h2>Turn your phone sideways</h2>
+      </section>
+      <div id="announcement" class="sr-only" aria-live="polite"></div>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
